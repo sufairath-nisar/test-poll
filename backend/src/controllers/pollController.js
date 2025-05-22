@@ -93,7 +93,7 @@ exports.castVote = async (req, res) => {
       user_id: userId,
     });
 
-    // broadcast new tally via WebSocket
+    // broadcast new tally via websocket
     const votes = await db('votes').select('option_id').where('poll_id', pollId);
     const tally = {};
     const options = await db('options').where('poll_id', pollId);

@@ -1,17 +1,13 @@
-// import React from 'react';
-
 interface PollOption {
   id: string;
   text: string;
 }
-
 interface Poll {
   id: string;
   question: string;
   options: PollOption[];
   tally: Record<string, number>;
 }
-
 interface Props {
   poll: Poll;
 }

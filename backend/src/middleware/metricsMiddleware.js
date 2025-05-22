@@ -2,7 +2,6 @@ const client = require('prom-client');
 
 const register = new client.Registry();
 
-// Collect default nodejs metrics (CPU, memory, event loop, etc.)
 client.collectDefaultMetrics({ register });
 
 // HTTP request duration histogram
@@ -13,21 +12,21 @@ const httpRequestDurationMs = new client.Histogram({
   buckets: [50, 100, 300, 500, 750, 1000, 2000], 
 });
 
-// Total requests counter
+// total requests counter
 const httpRequestCount = new client.Counter({
   name: 'http_requests_total',
   help: 'Total number of HTTP requests',
   labelNames: ['method', 'route', 'status_code'],
 });
 
-// Error requests counter
+// error requests counter
 const httpRequestErrors = new client.Counter({
   name: 'http_request_errors_total',
   help: 'Total number of failed HTTP requests',
   labelNames: ['method', 'route', 'status_code'],
 });
 
-// Number of in-flight requests
+// number of in-flight requests
 const inFlightRequests = new client.Gauge({
   name: 'http_in_flight_requests',
   help: 'Number of HTTP requests currently being handled',
@@ -43,7 +42,6 @@ function metricsMiddleware(req, res, next) {
   const endTimer = httpRequestDurationMs.startTimer();
 
   res.on('finish', () => {
-    // `req.route` might be undefined for some routes (like 404), fallback to `req.path`
     const route = req.route ? req.route.path : req.path;
     const labels = {
       method: req.method,

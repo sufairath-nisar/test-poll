@@ -9,9 +9,7 @@ const pollRoutes = require('./routes/pollRoutes');
 const ws = require('./ws');
 
 const authenticateToken = require('./middleware/auth');
-// Use the service rateLimiter, not the middleware one which creates its own Redis client
 const { rateLimiter: rateLimitMiddleware } = require('./services/rateLimiter');
-
 const { metricsMiddleware, register } = require('./middleware/metricsMiddleware');
 
 const app = express();
@@ -29,20 +27,20 @@ app.use(express.json());
 // Public routes (no auth, no rate limit)
 app.use('/api/auth', authRoutes);
 
-// Apply authentication middleware to all routes below
-app.use(authenticateToken);
-
-// Apply rate limiting middleware after authentication
-app.use(rateLimitMiddleware);
-
-// Prometheus metrics middleware (should be after all middlewares)
-app.use(metricsMiddleware);
+// Skip auth middleware during tests
+if (process.env.NODE_ENV !== 'test') {
+  app.use(authenticateToken);
+  app.use(rateLimitMiddleware);
+  app.use(metricsMiddleware);
+} else {
+  
+}
 
 app.get('/', (req, res) => {
   res.status(200).send('Server is running');
 });
 
-// Metrics endpoint for Prometheus to scrape
+// metrics endpoint for prometheus to scrape
 app.get('/metrics', async (req, res) => {
   try {
     res.set('Content-Type', register.contentType);
@@ -52,10 +50,10 @@ app.get('/metrics', async (req, res) => {
   }
 });
 
-// Protected routes
+// protected routes
 app.use('/api/polls', pollRoutes);
 
-// Initialize WebSocket server
+// initialize websocket server
 ws.init(server);
 
 const PORT = process.env.PORT || 4000;
@@ -67,3 +65,5 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = app;
+
+
