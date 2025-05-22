@@ -1,76 +1,92 @@
-// import React from "react";
-// import { PollTabs } from "./components/PollComponent";
-// import { PollRow } from "./components/PollList";
+// import { useState } from 'react';
+// import { Login } from './components/Login';
+// import { CreatePoll } from './components/CreatePoll';
+// import { PollDisplay } from './components/PollDisplay';
 
 // function App() {
-//   // read pollId from URL
-//   const urlParams = new URLSearchParams(window.location.search);
-//   const pollId = urlParams.get("pollId");
+//   const [token, setToken] = useState('');
+//   const [pollId, setPollId] = useState('');
 
-//   return (
-//     <div>
-//       <h1 style={{ textAlign: "center" }}>Polls</h1>
+//   if (!token) {
+//     return <Login onLogin={setToken} />;
+//   }
 
-//       {pollId ? (
-       
-//         <PollTabs  />
-//       ) : (
-      
-//         <PollRow />
-//       )}
-//     </div>
-//   );
+//   if (!pollId) {
+//     return <CreatePoll token={token} onPollCreated={setPollId} />;
+//   }
+
+//   return <PollDisplay token={token} pollId={pollId} onBack={() => setPollId('')} />;
 // }
 
 // export default App;
 
 
+import { useState, useEffect } from 'react';
+import { CreatePoll } from './components/createPoll/CreatePoll';
+import { PollDisplay } from './components/PollDisplay';
 
-
-
-////////////updated
-import React, { useEffect } from "react";
-import { PollTabs } from "./components/PollComponent";
-import { PollRow } from "./components/PollList";
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+console.log('API_BASE in app:', API_BASE);
 
 function App() {
-  // Get pollId from query string
-  const urlParams = new URLSearchParams(window.location.search);
-  const pollId = urlParams.get("pollId");
+  const [token, setToken] = useState<string>('');
+  const [pollId, setPollId] = useState<string>('');
 
-  // ✅ Fetch anonymous token on initial load
+  // Read pollId from URL query on mount
   useEffect(() => {
-    const fetchAnonToken = async () => {
-      const existingToken = localStorage.getItem("token");
-      if (!existingToken) {
-        try {
-//           const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/anon`, {
-//   method: "POST",
-// });
-
-
-
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const res = await fetch(`${API_URL}/auth/anon`, { method: 'POST' });
-          const data = await res.json();
-          localStorage.setItem("token", data.token);
-          console.log("Anonymous token stored:", data.token);
-        } catch (error) {
-          console.error("Failed to fetch anonymous token:", error);
-        }
-      }
-    };
-
-    fetchAnonToken();
+    const params = new URLSearchParams(window.location.search);
+    const idFromUrl = params.get('pollId');
+    if (idFromUrl) {
+      setPollId(idFromUrl);
+    }
   }, []);
 
-  return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>Polls</h1>
-      {pollId ? <PollTabs /> : <PollRow />}
-    </div>
-  );
+  // Always fetch a fresh anonymous token on load
+  useEffect(() => {
+    fetch(`${API_BASE}/auth/anon`, { method: 'POST' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          setToken(data.token);
+        } else {
+          alert('No token returned from anon auth');
+        }
+      })
+      .catch(err => {
+        console.error('Failed to get anonymous token', err);
+        alert('Failed to get anonymous token');
+      });
+  }, []);
+
+  // Clear pollId from URL when going back to CreatePoll
+  // const handleBack = () => {
+  //   setPollId('');
+  //   const url = new URL(window.location.href);
+  //   url.searchParams.delete('pollId');
+  //   window.history.replaceState(null, '', url.toString());
+  // };
+
+  if (!token) {
+    return <div style={{ textAlign: 'center', marginTop: '2rem' }}>Loading token…</div>;
+  }
+
+  if (!pollId) {
+    return (
+      <CreatePoll
+        token={token}
+        onPollCreated={(id) => {
+          setPollId(id);
+          const url = new URL(window.location.href);
+          url.searchParams.set('pollId', id);
+          window.history.replaceState(null, '', url.toString());
+        }}
+      />
+    );
+  }
+
+  // return <PollDisplay token={token} pollId={pollId} onBack={handleBack} />;
+    return <PollDisplay token={token} pollId={pollId}  />;
+
 }
 
 export default App;

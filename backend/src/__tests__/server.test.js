@@ -1,9 +1,9 @@
 const request = require('supertest');
-const app = require('../server.js');  // Adjust relative path if needed
+const app = require('../server'); // relative path from src/__tests__
 
 describe('GET /', () => {
-  it('responds with 200', async () => {
-    const res = await request(app).get('/');
-    expect(res.statusCode).toBe(200);
+  it('should respond with 200 status code', async () => {
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
   });
 });

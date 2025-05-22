@@ -1,6 +1,4 @@
 const db = require('../db');
-// const rateLimiter = require('../services/rateLimiter');
-// const redisClient = require('../services/redisClient');
 const wss = require('../ws');
 
 exports.createPoll = async (req, res) => {
@@ -15,12 +13,12 @@ exports.createPoll = async (req, res) => {
       return res.status(400).json({ message: 'Expiration must be in the future' });
     }
 
-    // Insert poll
+    // insert poll
     const [poll] = await db('polls')
       .insert({ question, expires_at })
       .returning(['id', 'question', 'expires_at']);
 
-    // Insert options
+    // insert options
     const opts = options.map((text) => ({ poll_id: poll.id, text }));
     await db('options').insert(opts);
 
@@ -74,35 +72,28 @@ exports.castVote = async (req, res) => {
     const { optionId } = req.body;
     const userId = req.user.userId;
 
-    // Rate limit per user
-    // try {
-    //   await rateLimiter.consume(userId);
-    // } catch {
-    //   return res.status(429).json({ message: 'Too many requests' });
-    // }
-
-    // Check poll expiry
+    // check poll expiry
     const poll = await db('polls').where('id', pollId).first();
     if (!poll) return res.status(404).json({ message: 'Poll not found' });
     if (poll.expires_at < new Date()) {
       return res.status(403).json({ message: 'Poll expired' });
     }
 
-    // Check option exists for poll
+    // check option exists for poll
     const option = await db('options').where({ id: optionId, poll_id: pollId }).first();
     if (!option) return res.status(400).json({ message: 'Invalid option' });
 
-    // Idempotent: delete previous vote if exists
+    // delete previous vote if exists
     await db('votes').where({ poll_id: pollId, user_id: userId }).del();
 
-    // Insert new vote
+    // insert new vote
     await db('votes').insert({
       poll_id: pollId,
       option_id: optionId,
       user_id: userId,
     });
 
-    // Broadcast new tally via WebSocket (simplified)
+    // broadcast new tally via WebSocket
     const votes = await db('votes').select('option_id').where('poll_id', pollId);
     const tally = {};
     const options = await db('options').where('poll_id', pollId);
@@ -110,8 +101,15 @@ exports.castVote = async (req, res) => {
     votes.forEach((v) => {
       tally[v.option_id] = (tally[v.option_id] || 0) + 1;
     });
-
-    wss.broadcast(pollId, JSON.stringify({ type: 'tally', tally }));
+    console.log('[SERVER] Broadcasting tally for poll', pollId, tally);
+    wss.broadcast(
+      pollId,
+      JSON.stringify({
+      type: 'tally',
+      pollId,
+      tally
+      })
+    );
 
     res.json({ message: 'Vote cast' });
   } catch (error) {
