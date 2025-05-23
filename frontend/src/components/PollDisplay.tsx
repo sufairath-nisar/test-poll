@@ -12,12 +12,13 @@ interface Poll {
 interface PollDisplayProps {
   token: string;
   pollId: string;
+  onBack: () => void;
 }
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 const WS_BASE  = import.meta.env.VITE_WS_BASE_URL;
 
-export function PollDisplay({ token, pollId }: PollDisplayProps) {
+export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
     
     const [poll, setPoll] = useState<Poll | null>(null);
     const [showResults, setShowResults] = useState(false);
@@ -27,6 +28,8 @@ export function PollDisplay({ token, pollId }: PollDisplayProps) {
     const wsRef = useRef<WebSocket | null>(null);
     const [messageType, setMessageType] = useState<'success' | 'error' | ''>('');
     const popupWindowRef = useRef<Window | null>(null);
+    
+
 
     useEffect(() => {
         fetch(`${API_BASE}/polls/${pollId}`, {
@@ -215,17 +218,12 @@ export function PollDisplay({ token, pollId }: PollDisplayProps) {
             </button>
 
             <button
-                onClick={() => {
-                    window.open(
-                    `${window.location.origin}/poll/${pollId}`,
-                    '_blank',
-                    'width=600,height=700,resizable=yes,scrollbars=yes'
-                    );
-                }}
-                className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
+            onClick={onBack}
+            className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
             >
-                    Create New Poll
+                Create New Poll
             </button>
+
 
         </div>
       </div>

@@ -61,6 +61,8 @@ app.get('/metrics', async (req, res) => {
   }
 });
 
+console.log("in server before calling poll");
+
 // Protected routes
 app.use('/api/polls', pollRoutes);
 
