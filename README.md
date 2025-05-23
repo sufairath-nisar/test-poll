@@ -39,9 +39,9 @@ A lightweight Slido-lite app built with Node.js, React (Vite + TypeScript), Post
 
 ## Getting Started
 
-Clone the repository:
+Clone the repository and navigate into the project directory:
 
-``bash
+```bash
 git clone https://github.com/sufairath-nisar/test-poll.git
 cd test-poll
 
