@@ -1,4 +1,3 @@
-// knexfile.js
 require('dotenv').config();
 
 module.exports = {
@@ -32,7 +31,7 @@ module.exports = {
     },
   },
 
-  production: { 
+  production: {
     client: 'pg',
     connection: {
       host: process.env.PG_HOST,
@@ -40,6 +39,9 @@ module.exports = {
       database: process.env.PG_DATABASE,
       user: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
     migrations: {
       directory: './migrations',
