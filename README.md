@@ -87,15 +87,15 @@ Stop services with Ctrl+C and clean up containers:
 The frontend is a clean, responsive React + Vite app styled with Tailwind CSS. Key UI components include:
 
 **Poll Creation Page**
-    -Input fields for poll question, answer options, and expiration time
-    -"Add Option" button to dynamically add more options
-    -"Create Poll" button to submit the poll
+- Input fields for poll question, answer options, and expiration time
+- "Add Option" button to dynamically add more options
+- "Create Poll" button to submit the poll
 
 **Poll Voting Page**
-Displays the poll question and available options as clickable buttons
-"Submit Vote" button enabled only after selecting an option
-"Show Results" button to view real-time results after voting
-Real-time vote counts update instantly via WebSocket
+- Displays the poll question and available options as clickable buttons
+- "Submit Vote" button enabled only after selecting an option
+- "Show Results" button to view real-time results after voting
+- Real-time vote counts update instantly via WebSocket
 
 **Live Results Page**
 - Bar charts or count indicators for each poll option
