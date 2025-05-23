@@ -7,4 +7,5 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "start"]
+# Run migrations, then start the app
+CMD npx knex migrate:latest --env production && npm start
