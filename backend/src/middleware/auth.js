@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 function authenticateToken(req, res, next) {
+  console.log('auth middleware');
   const authHeader = req.headers['authorization'];
   if (!authHeader) return res.status(401).json({ message: 'Token required' });
 
