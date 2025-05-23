@@ -77,6 +77,6 @@ Stop services with Ctrl+C and clean up containers:
 
 ## Frontend (.env.example)
 
-- VITE_API_BASE_URL=http://localhost:4001/api          # Base URL for API requests  
-- VITE_WS_BASE_URL=ws://localhost:4001                 # WebSocket URL
+- VITE_API_BASE_URL=http://localhost:4001/api          
+- VITE_WS_BASE_URL=ws://localhost:4001               
 
