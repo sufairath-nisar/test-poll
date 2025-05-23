@@ -46,6 +46,7 @@ app.use('/api/auth', authRoutes);
 
 // Root health check
 app.get('/', (req, res) => {
+  console.log("server is running in live");
   res.status(200).send('Server is running');
 });
 
