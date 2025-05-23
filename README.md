@@ -29,11 +29,11 @@ A lightweight Slido-lite app built with Node.js, React (Vite + TypeScript), Post
 
 ## Repository Structure
 
-/test-poll  
-/backend # Node.js Express API with REST + WebSocket  
-/frontend # React Vite + TypeScript frontend app  
-docker-compose.yml # Docker Compose file to orchestrate backend, frontend, PostgreSQL, Redis  
-README.md # Project documentation (this file)  
+- `/test-poll`  
+- `/backend` — Node.js Express API with REST + WebSocket  
+- `/frontend` — React Vite + TypeScript frontend app  
+- `docker-compose.yml` — Docker Compose file to orchestrate backend, frontend, PostgreSQL, Redis  
+- `README.md` — Project documentation (this file)  
 
 ---
 
