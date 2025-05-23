@@ -101,7 +101,7 @@ export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
                     <h2 className="text-2xl text-blue-700 font-semibold mb-6 text-center">Live Feedback: Cast Your Vote!</h2>
                     <h3 className="text-xl font-semibold mb-6">{poll.question}</h3>
 
-                    {/* Options */}
+                    {/* options */}
                     {!showResults && !isExpired && (
                         <form className="space-y-4">
                         {poll.options.map(opt => (
@@ -145,7 +145,7 @@ export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
                     )}
 
 
-                    {/* Results */}
+                    {/* results */}
                     {showResults && (
                         <div className="mt-6 space-y-4">
                             {poll.options.map(opt => {
@@ -189,7 +189,7 @@ export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
                     )}
                 </div>
 
-                {/* Actions */}
+                {/* actions */}
                 <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
             
                     <button
@@ -221,7 +221,6 @@ export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
                     >
                         Create New Poll
                     </button>
-
 
                 </div>
             </div>
