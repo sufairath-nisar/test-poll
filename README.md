@@ -98,7 +98,7 @@ The frontend is a clean, responsive React + Vite app styled with Tailwind CSS. K
 - Real-time vote counts update instantly via WebSocket
 
 **Live Results Page**
-- Bar charts or count indicators for each poll option
+- Progress bar for each poll option
 - Automatically updates in real-time using WebSocket stream
 - A message is shown when the poll is closed and no further voting is allowed
 
