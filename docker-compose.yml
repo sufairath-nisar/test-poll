@@ -13,13 +13,17 @@ services:
       - redis
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args: # This passes variables from your local .env (or shell) to the Docker build process
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_WS_BASE_URL: ${VITE_WS_BASE_URL}
     ports:
       - "8080:3000"
     depends_on:
       - backend
-    env_file:
-      - ./frontend/.env
+    # No need for env_file here, as variables are baked in at build time
 
   postgres:
     image: postgres:15
