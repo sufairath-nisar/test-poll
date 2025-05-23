@@ -41,7 +41,7 @@ A lightweight Slido-lite app built with Node.js, React (Vite + TypeScript), Post
 
 Clone the repository and navigate into the project directory:
 
-`bash
+``bash
 - git clone https://github.com/sufairath-nisar/test-poll.git
 - cd test-poll
 
@@ -52,32 +52,32 @@ Clone the repository and navigate into the project directory:
 Start all services (backend, frontend, PostgreSQL, Redis) in one command:
 
 ``bash
-docker-compose up --build
+- docker-compose up --build
 
-Backend API will be available at http://localhost:4001
-Frontend UI will be available at http://localhost:3000
+- Backend API will be available at http://localhost:4001
+- Frontend UI will be available at http://localhost:3000
 
 Stop services with Ctrl+C and clean up containers:
-docker-compose down
+- docker-compose down
 
 ---
 
 ## Backend (.env.example)
-PG_HOST=postgres_host_name       # PostgreSQL host
-PG_PORT=5432                     # PostgreSQL port
-PG_DATABASE=database_name        # Database name
-PG_USER=postgres_user            # PostgreSQL user
-PG_PASSWORD=postgres_pswd        # PostgreSQL password
+- PG_HOST=postgres_host_name       # PostgreSQL host
+- PG_PORT=5432                     # PostgreSQL port
+- PG_DATABASE=database_name        # Database name
+- PG_USER=postgres_user            # PostgreSQL user
+- PG_PASSWORD=postgres_pswd        # PostgreSQL password
 
-NODE_ENV=development             # Node environment
+- NODE_ENV=development             # Node environment
 
-JWT_SECRET=your_secret_key       # JWT signing secret
-JWT_EXPIRES_IN=600s              # JWT expiry duration
-PORT=4000                        # Backend server port
+- JWT_SECRET=your_secret_key       # JWT signing secret
+- JWT_EXPIRES_IN=600s              # JWT expiry duration
+- PORT=4000                        # Backend server port
 
 ---
 
 ## Frontend (.env.example)
-VITE_API_BASE_URL=http://localhost:4001/api    # Base URL for API requests
-VITE_WS_BASE_URL=ws://localhost:4001           # WebSocket URL
+- VITE_API_BASE_URL=http://localhost:4001/api    # Base URL for API requests
+- VITE_WS_BASE_URL=ws://localhost:4001           # WebSocket URL
 
