@@ -24,6 +24,7 @@ A lightweight Slido-lite app built with Node.js, React (Vite + TypeScript), Post
 - **Frontend:** React, Vite, TypeScript, Tailwind CSS, Docker
 - **Testing:** Jest with unit and integration tests hitting containerized DB
 - **Containerization:** Docker and Docker Compose
+- **Persistence:** PostgreSQL, with explicit schema and SQL migrations (no ORM magic)
 
 ---
 
