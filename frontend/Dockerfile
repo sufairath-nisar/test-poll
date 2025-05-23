@@ -1,15 +1,18 @@
-FROM node:18-alpine
+# --- Stage 1: Build with env vars ---
+FROM node:18 AS builder
 
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
 COPY . .
 
-RUN npm run build
+# Inject env vars from Render at this stage
+RUN npm install && npm run build
 
-RUN npm install -g serve
+# --- Stage 2: Serve static build ---
+FROM node:18
 
-EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+WORKDIR /app
+RUN npm install -g http-server
+COPY --from=builder /app/dist .
+
+EXPOSE 8080
+CMD ["http-server", "-p", "8080"]

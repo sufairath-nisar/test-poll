@@ -6,6 +6,7 @@ import { PollDisplay } from './components/PollDisplay';
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 console.log('API_BASE in app:', API_BASE);
 
+
 function App() {
   const [token, setToken] = useState<string>('');
   const [pollId, setPollId] = useState<string>('');
