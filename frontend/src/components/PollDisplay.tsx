@@ -95,138 +95,138 @@ export function PollDisplay({ token, pollId, onBack }: PollDisplayProps) {
     const isExpired = new Date() > new Date(poll.expiresAt);
     const highestVotes = Math.max(...Object.values(poll.tally || {}));
 
-  return (
-    <div className="max-w-xl mx-auto mt-8 font-sans">
-      <div className="bg-white shadow-lg shadow-blue-100 rounded-xl p-6">
+    return (
+        <div className="max-w-xl mx-auto mt-8 font-sans">
+        <div className="bg-white shadow-lg shadow-blue-100 rounded-xl p-6">
 
-        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h2 className="text-2xl text-blue-700 font-semibold mb-6 text-center">Live Feedback: Cast Your Vote!</h2>
-            <h3 className="text-xl font-semibold mb-6">{poll.question}</h3>
+            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h2 className="text-2xl text-blue-700 font-semibold mb-6 text-center">Live Feedback: Cast Your Vote!</h2>
+                <h3 className="text-xl font-semibold mb-6">{poll.question}</h3>
 
-            {/* Options */}
-            {!showResults && !isExpired && (
-                <form className="space-y-4">
-                {poll.options.map(opt => (
-                    <div key={opt.id} className="flex items-center space-x-2">
-                    <input
-                        type="radio"
-                        name="pollOption"
-                        id={opt.id}
-                        value={opt.id}
-                        checked={selectedOption === opt.id}
-                        onChange={() => setSelectedOption(opt.id)}
-                        className="accent-blue-600 focus:ring-2 focus:ring-blue-400 cursor-pointer"
-                    />
-                    <label htmlFor={opt.id} className="text-gray-700 cursor-pointer">{opt.text}</label>
-                    </div>
-                ))}
-                <button
-                    type="button"
-                    onClick={vote}
-                    disabled={!selectedOption || isExpired || hasVoted}
-                    className={`mt-4 px-4 py-2 rounded text-white ${
-                    !selectedOption || isExpired || hasVoted
-                        ? 'bg-green-300 cursor-not-allowed'
-                        : 'bg-green-600 hover:bg-green-700 cursor-pointer'
-                    }`}
-                >
-                        Vote
-                </button>
-                </form>
-            )}
-
-            {message && (
-                <p
-                    className={`mt-4 text-sm font-semibold text-center rounded-md px-4 py-2 ${
-                    messageType === 'success' ? 'bg-green-100 text-green-600' :
-                    messageType === 'error' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-700'
-                    }`}
-                >
-                    {message}
-                </p>
-            )}
-
-
-            {/* Results */}
-            {showResults && (
-                <div className="mt-6 space-y-4">
-                    {poll.options.map(opt => {
-                        const count = poll.tally[opt.id] || 0;
-                        const pct = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
-                        const isTop = count === highestVotes && totalVotes > 0;
-                        return (
-                        <div key={opt.id}>
-                            <div className={`mb-1 text-sm ${isTop ? 'font-bold text-green-700' : 'text-gray-800'}`}>
-                            {opt.text} — {count} vote{count !== 1 ? 's' : ''} ({pct}%)
-                            </div>
-                            <div className="w-full h-4 bg-gray-200 rounded">
-                            <div
-                                className={`h-4 ${isTop ? 'bg-green-600' : 'bg-green-400'} rounded transition-all`}
-                                style={{ width: `${pct}%` }}
-                            />
-                            </div>
+                {/* Options */}
+                {!showResults && !isExpired && (
+                    <form className="space-y-4">
+                    {poll.options.map(opt => (
+                        <div key={opt.id} className="flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            name="pollOption"
+                            id={opt.id}
+                            value={opt.id}
+                            checked={selectedOption === opt.id}
+                            onChange={() => setSelectedOption(opt.id)}
+                            className="accent-blue-600 focus:ring-2 focus:ring-blue-400 cursor-pointer"
+                        />
+                        <label htmlFor={opt.id} className="text-gray-700 cursor-pointer">{opt.text}</label>
                         </div>
-                        );
-                    })}
-                </div>
-            )}
+                    ))}
+                    <button
+                        type="button"
+                        onClick={vote}
+                        disabled={!selectedOption || isExpired || hasVoted}
+                        className={`mt-4 px-4 py-2 rounded text-white ${
+                        !selectedOption || isExpired || hasVoted
+                            ? 'bg-green-300 cursor-not-allowed'
+                            : 'bg-green-600 hover:bg-green-700 cursor-pointer'
+                        }`}
+                    >
+                            Vote
+                    </button>
+                    </form>
+                )}
 
-            <p className="mt-6 text-sm text-red-700">
-                Expires at: {
-                    new Date(poll.expiresAt).toLocaleString('en-AE', {
-                timeZone: 'Asia/Dubai',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true 
-                })
+                {message && (
+                    <p
+                        className={`mt-4 text-sm font-semibold text-center rounded-md px-4 py-2 ${
+                        messageType === 'success' ? 'bg-green-100 text-green-600' :
+                        messageType === 'error' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-700'
+                        }`}
+                    >
+                        {message}
+                    </p>
+                )}
 
-                }
-            </p>
 
-            {isExpired && (
-                <p className="text-red-600 font-medium mt-1 text-red-700">Poll is closed</p>
-            )}
-        </div>
+                {/* Results */}
+                {showResults && (
+                    <div className="mt-6 space-y-4">
+                        {poll.options.map(opt => {
+                            const count = poll.tally[opt.id] || 0;
+                            const pct = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
+                            const isTop = count === highestVotes && totalVotes > 0;
+                            return (
+                            <div key={opt.id}>
+                                <div className={`mb-1 text-sm ${isTop ? 'font-bold text-green-700' : 'text-gray-800'}`}>
+                                {opt.text} — {count} vote{count !== 1 ? 's' : ''} ({pct}%)
+                                </div>
+                                <div className="w-full h-4 bg-gray-200 rounded">
+                                <div
+                                    className={`h-4 ${isTop ? 'bg-green-600' : 'bg-green-400'} rounded transition-all`}
+                                    style={{ width: `${pct}%` }}
+                                />
+                                </div>
+                            </div>
+                            );
+                        })}
+                    </div>
+                )}
 
-        {/* Actions */}
-        <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
-      
-            <button
-                onClick={() => {
-                    if (poll) {
-                    console.log('[Parent] opening popup', poll);
-                    popupWindowRef.current = openOrUpdatePollWindow(poll);
+                <p className="mt-6 text-sm text-red-700">
+                    Expires at: {
+                        new Date(poll.expiresAt).toLocaleString('en-AE', {
+                    timeZone: 'Asia/Dubai',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true 
+                    })
 
                     }
-                }}
+                </p>
+
+                {isExpired && (
+                    <p className="text-red-600 font-medium mt-1 text-red-700">Poll is closed</p>
+                )}
+            </div>
+
+            {/* Actions */}
+            <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+        
+                <button
+                    onClick={() => {
+                        if (poll) {
+                        console.log('[Parent] opening popup', poll);
+                        popupWindowRef.current = openOrUpdatePollWindow(poll);
+
+                        }
+                    }}
+                        className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
+
+                    >
+                        Open Live Results
+                </button>
+        
+                <button
+                    onClick={() => setShowResults(sr => !sr)}
                     className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
-
                 >
-                    Open Live Results
-            </button>
-      
-            <button
-                onClick={() => setShowResults(sr => !sr)}
+                    {showResults
+                    ? 'Hide Results'
+                    : `Show Results (${totalVotes} vote${totalVotes !== 1 ? 's' : ''})`}
+                </button>
+
+                <button
+                onClick={onBack}
                 className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
-            >
-                {showResults
-                ? 'Hide Results'
-                : `Show Results (${totalVotes} vote${totalVotes !== 1 ? 's' : ''})`}
-            </button>
-
-            <button
-            onClick={onBack}
-            className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer"
-            >
-                Create New Poll
-            </button>
+                >
+                    Create New Poll
+                </button>
 
 
+            </div>
         </div>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

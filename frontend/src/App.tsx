@@ -8,17 +8,17 @@ console.log('API_BASE in app:', API_BASE);
 function App() {
   const [token, setToken] = useState<string>('');
   const [pollId, setPollId] = useState<string>('');
-  const [isCreating, setIsCreating] = useState<boolean>(false); // NEW
-  const [formKey, setFormKey] = useState<number>(0); // NEW - force form reset
+  const [isCreating, setIsCreating] = useState<boolean>(false); 
+  const [formKey, setFormKey] = useState<number>(0); 
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const idFromUrl = params.get('pollId');
     if (idFromUrl) {
       setPollId(idFromUrl);
-      setIsCreating(false); // show poll display
+      setIsCreating(false); 
     } else {
-      setIsCreating(true); // show create poll view
+      setIsCreating(true); 
     }
   }, []);
 
@@ -65,7 +65,7 @@ function App() {
       onBack={() => {
         setPollId('');
         setIsCreating(true);
-        setFormKey(prev => prev + 1); // force re-render CreatePoll form
+        setFormKey(prev => prev + 1); 
         const url = new URL(window.location.href);
         url.searchParams.delete('pollId');
         window.history.replaceState(null, '', url.toString());
