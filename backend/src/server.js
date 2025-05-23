@@ -38,11 +38,11 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 // Conditionally apply middleware (skip during tests)
-if (process.env.NODE_ENV !== 'test') {
-  app.use(authenticateToken);
-  app.use(rateLimitMiddleware);
-  app.use(metricsMiddleware);
-}
+// if (process.env.NODE_ENV !== 'test') {
+//   app.use(authenticateToken);
+//   app.use(rateLimitMiddleware);
+//   app.use(metricsMiddleware);
+// }
 
 // Root health check
 app.get('/', (req, res) => {
