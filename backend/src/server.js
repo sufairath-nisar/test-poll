@@ -64,6 +64,12 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
+app.post('/api/test', (req, res) => {
+  console.log('Test route hit');
+  res.status(200).json({ msg: 'Test success' });
+});
+
+
 module.exports = app;
 
 
