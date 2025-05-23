@@ -2,7 +2,7 @@ const db = require('../db');
 const wss = require('../ws');
 
 exports.createPoll = async (req, res) => {
-   res.status(400).json({ error: 'entering into controller' });
+   
   try {
      res.status(400).json({ error: 'entering into controller try' });
     const { question, options, expiresAt } = req.body;
@@ -28,7 +28,7 @@ exports.createPoll = async (req, res) => {
 
     res.status(201).json({ id: poll.id });
   } catch (error) {
-    console.error('Poll creation failed:', err);
+     console.error('Poll creation failed:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
