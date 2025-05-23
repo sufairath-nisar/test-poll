@@ -4,6 +4,8 @@ const wss = require('../ws');
 exports.createPoll = async (req, res) => {
   try {
     const { question, options, expiresAt } = req.body;
+    console.log('Payload:', { question, options, expiresAt });
+    console.log('User:', req.user); 
     
     if (!question || !Array.isArray(options) || options.length < 2 || !expiresAt) {
       return res.status(400).json({ message: 'Invalid poll data' });
@@ -24,8 +26,8 @@ exports.createPoll = async (req, res) => {
 
     res.status(201).json({ id: poll.id });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Poll creation failed:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
