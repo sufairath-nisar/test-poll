@@ -4,7 +4,7 @@ const wss = require('../ws');
 exports.createPoll = async (req, res) => {
    
   try {
-     res.status(400).json({ error: 'entering into controller try' });
+    console.log('Entering createPoll controller');
     const { question, options, expiresAt } = req.body;
     console.log('Payload:', { question, options, expiresAt });
     console.log('User:', req.user); 
